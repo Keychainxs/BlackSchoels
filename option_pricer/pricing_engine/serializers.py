@@ -26,8 +26,19 @@ class OptionPricingSerializer(serializers.Serializer):
         return value
 #create another class called to set the fields for the callprice, greek, put, and calculation date 
 # set the methods for each type: FLOAT field, date field, and Dictfield
+class UserRegistrationSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=150)
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
 
-
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Passwords do not match")
+        return data
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
 class CalculateOptionsSerializer(serializers.Serializer): 
     call_price = serializers.FloatField()
     greeks = serializers.DictField()

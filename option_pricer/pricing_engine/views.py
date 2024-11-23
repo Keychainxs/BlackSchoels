@@ -3,11 +3,16 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, request
 from mongoengine.connection import get_db
-from .serializers import OptionPricingSerializer, CalculateOptionsSerializer
+from .serializers import OptionPricingSerializer, CalculateOptionsSerializer, UserRegistrationSerializer, UserLoginSerializer
 from .black_schoels import calculate_option_price
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 from django.http import HttpResponse
+from .models import User
+from django.contrib.auth.hashers import make_password, check_password
+import jwt 
+from django.conf import settings
+
 # Create your views here.
 
 
@@ -85,7 +90,68 @@ class CalculateGreeksView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
 
+class RegistrationView(APIView): 
+    def get (self, request):
+        serializer = UserRegistrationSerializer(data = request.data)
+        
+        if serializer.is_valid():
+            
+            if User.objects(email = serializer.validated_data['email']):
+                return Response (
+                    {
+                        'error': "Email already exists"
+                    }, status = status.HTTP_400_BAD_REQUEST
+                )
+                
+            user = User (
+                username = serializer.validated_data['username'],
+                email = serializer.validated_data['email'],
+                password = serializer.validated_data['password']
+            )
+            user.save()
+            
+            return Response ({
+                'message': "User registered successfully"
+            }, status = status.HTTP_201_CREATED)
+        return Response(serializer.error, status = status.HTTP_400_BAD_REQUEST)
+    
+class LoginView(APIView):
+    def post(self,request):
+        serializer = UserLoginSerializer(data = request.data)
+        
+        if serializer.is_valid(): 
+            user = User.objects(email = serializer.validated_data['email']).first()
 
+            if user and check_password((serializer.validated_data['password'], user.password)): 
+                
+                token = jwt.encode({
+                    'user_id': str(user.id),
+                    'email': user.email,
+                    'exp' :datetime.now(datetime.now.UTC) + timedelta(days = 1),
+                    
+                }, settings.SECRET_KEY, algorithm = 'HS256')
+                
+                return Response({
+                    'token': token,
+                    'user': {
+                        'id': str(user.id),
+                        'username': user.username,
+                        'email': user.email
+                    }
+                })
+            return Response(
+                    {'error': 'Invalid credentials'},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    def post(self, request):
+        
+        return Response({
+            'message': 'Logged out successfully'
+        })
 class TestMongoConnection(APIView):
     def get(self, reqeust): 
         try: 

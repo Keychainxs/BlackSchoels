@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from mongoengine import connect
 import os 
+import settings
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -72,7 +74,20 @@ CORS_ALLOW_METHODS = [
 ]
 ##########
 
+#######
+###### REST FRAMEWORK#####
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSESS': (
+        'pricing_engine.middleware.JWTAuthentication',
+    ) 
+}
+JWT_AUTH = {
+    'JWT_SECRET_KEY': settings.SECRET_KEY,
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_EXPIRATION_DELTA': timedelta(days=1),
+}
+####
 
 ROOT_URLCONF = "option.urls"
 
