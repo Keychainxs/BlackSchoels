@@ -2,13 +2,13 @@ import numpy as np
 from scipy.stats import norm
 from datetime import datetime
 import math
-
+import pytz
 # pricing_engine/black_scholes.py
-
 import numpy as np
 from scipy.stats import norm
 from datetime import datetime
 import math
+from django.utils import timezone
 
 class BlackScholes:
     """
@@ -33,10 +33,16 @@ class BlackScholes:
         
         # Calculate time to maturity
         if isinstance(maturity_date, datetime):
-            self.T = (maturity_date - datetime.now()).days / 365.0
+            if maturity_date.tzinfo is None:
+                maturity_date =  pytz.utc.localize(maturity_date)
+                
+            now = timezone.now()
+            
+            
+            self.T = (maturity_date - now).days / 365.0
         else:
             self.T = float(maturity_date)
-            
+           
         # Calculate d1 and d2
         try:
             self.d1 = (np.log(self.S / self.K) + 
