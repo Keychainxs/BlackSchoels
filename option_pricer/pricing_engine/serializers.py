@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.utils import timezone
 import pytz
+from .models import User
 # create a class OptionPricingSerializer
 # then create objects of the stike price,spot price, maturity date, risk free date, and volility 
 # for the arguments of spot and strike price create a mine field and set it to 0.01
@@ -24,6 +25,8 @@ class OptionPricingSerializer(serializers.Serializer):
             raise serializers.ValidationError("Maturity date must be in the future")
         
         return value
+    
+    
 #create another class called to set the fields for the callprice, greek, put, and calculation date 
 # set the methods for each type: FLOAT field, date field, and Dictfield
 class UserRegistrationSerializer(serializers.Serializer):
