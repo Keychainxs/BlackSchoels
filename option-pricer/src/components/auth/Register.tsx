@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TextField,Button,Box,Typography } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
+import { register } from "../../services/auth";
 
 /** 
  * create a register function 
@@ -24,14 +25,17 @@ const Register = () => {
         confirmPassword: '',
     });
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
     
         try {
-            console.log("Register attempt:", FormData);
+          await register(formData);
+          navigate("/login");
         } catch (error) {
-            console.log("Registration Failed:", error);
-        };
+          console.error("Registration Failed:", error);
+        }
     };
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>

@@ -122,8 +122,9 @@ class RegisterView(APIView):
             return Response ({
                 'message': "User registered successfully"
             }, status = status.HTTP_201_CREATED)
-        return Response(serializer.error, status = status.HTTP_400_BAD_REQUEST)
-    
+        print("Serializer errors:", serializer.errors)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+   
 class LoginView(APIView):
      def post(self, request):
         print("login endpoint hit")
