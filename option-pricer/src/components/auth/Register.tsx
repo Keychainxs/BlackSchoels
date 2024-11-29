@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { TextField,Button,Box,Typography } from "@mui/material";
 
 
@@ -79,7 +78,6 @@ const Register = () => {
         </Box>
       );
 };
-
 
 
 
