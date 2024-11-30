@@ -123,7 +123,7 @@ def calculate_option_price(spot_price, strike_price, maturity_date, risk_free_ra
             risk_free_rate=risk_free_rate,
             volatility=volatility
         )
-        
+       
         return {
             'call_price': bs.calculate_call_price(),
             'put_price': bs.calculate_put_price(),

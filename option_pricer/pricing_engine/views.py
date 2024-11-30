@@ -106,7 +106,7 @@ class RegisterView(APIView):
     def post(self, request):
         print("Register Endpoint")
         serializer = UserRegistrationSerializer(data = request.data)
-        
+       
         if serializer.is_valid():
             
             if User.objects(email = serializer.validated_data['email']):
