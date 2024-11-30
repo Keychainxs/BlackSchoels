@@ -55,3 +55,9 @@ Before beginning installation, ensure you have:
 ```bash
 python -m venv venv
 source venv/bin/activate  # For Windows: venv\Scripts\activate
+pip install -r requirements.txt
+MONGODB_HOST = 'Yourhost(Could be localhost)'
+MONGODB_PORT = 27017
+MONGODB_NAME = 'Your DB name'
+python manage.py migrate
+python manage.py runserver
