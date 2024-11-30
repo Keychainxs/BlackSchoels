@@ -9,6 +9,7 @@ import {
   Container
 } from '@mui/material';
 import { calculateOption } from '../../services/api';
+import OptionChart from '../visualization/Optionchart';
 
 interface CalculationResult {
   call_price: number;
@@ -164,69 +165,72 @@ const OptionCalculator = () => {
         )}
 
         {result && (
-          <Paper sx={{ p: 4 }}>
-            <Stack spacing={4}>
-              <Box>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    mb: 3,
-                    color: 'primary.main',
-                    fontWeight: 600 
-                  }}
-                >
-                  Option Prices
-                </Typography>
-                <Stack spacing={2} sx={{ pl: 2 }}>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Call Price: ${result.call_price.toFixed(4)}
+          <>
+            <Paper sx={{ p: 4 }}>
+              <Stack spacing={4}>
+                <Box>
+                  <Typography 
+                    variant="h6" 
+                    sx={{ 
+                      mb: 3,
+                      color: 'primary.main',
+                      fontWeight: 600 
+                    }}
+                  >
+                    Option Prices
                   </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Put Price: ${result.put_price.toFixed(4)}
-                  </Typography>
-                </Stack>
-              </Box>
+                  <Stack spacing={2} sx={{ pl: 2 }}>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Call Price: ${result.call_price.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Put Price: ${result.put_price.toFixed(4)}
+                    </Typography>
+                  </Stack>
+                </Box>
 
-              <Box>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    mb: 3,
-                    color: 'primary.main',
-                    fontWeight: 600 
-                  }}
-                >
-                  Greeks
-                </Typography>
-                <Stack spacing={2} sx={{ pl: 2 }}>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Call Delta: {result.greeks.delta.call.toFixed(4)}
+                <Box>
+                  <Typography 
+                    variant="h6" 
+                    sx={{ 
+                      mb: 3,
+                      color: 'primary.main',
+                      fontWeight: 600 
+                    }}
+                  >
+                    Greeks
                   </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Put Delta: {result.greeks.delta.put.toFixed(4)}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Gamma: {result.greeks.gamma.toFixed(4)}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Vega: {result.greeks.vega.toFixed(4)}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Call Theta: {result.greeks.theta.call.toFixed(4)}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Put Theta: {result.greeks.theta.put.toFixed(4)}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Call Rho: {result.greeks.rho.call.toFixed(4)}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
-                    Put Rho: {result.greeks.rho.put.toFixed(4)}
-                  </Typography>
-                </Stack>
-              </Box>
-            </Stack>
-          </Paper>
+                  <Stack spacing={2} sx={{ pl: 2 }}>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Call Delta: {result.greeks.delta.call.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Put Delta: {result.greeks.delta.put.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Gamma: {result.greeks.gamma.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Vega: {result.greeks.vega.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Call Theta: {result.greeks.theta.call.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Put Theta: {result.greeks.theta.put.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Call Rho: {result.greeks.rho.call.toFixed(4)}
+                    </Typography>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                      Put Rho: {result.greeks.rho.put.toFixed(4)}
+                    </Typography>
+                  </Stack>
+                </Box>
+              </Stack>
+            </Paper>
+            <OptionChart data={result} />
+          </>
         )}
       </Box>
     </Container>
