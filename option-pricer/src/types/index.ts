@@ -1,7 +1,4 @@
 
-
-
-
 export interface OptionData {
     spot_price: number
     strike_price: number 

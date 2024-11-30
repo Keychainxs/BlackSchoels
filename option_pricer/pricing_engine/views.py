@@ -28,6 +28,7 @@ class CalculateOptionPriceView(APIView):
     def post(self, request):
         try:
             # Verify token
+            print("Received data:", request.data)
             auth_header = request.headers.get('Authorization')
             if auth_header:
                 try:
@@ -48,6 +49,7 @@ class CalculateOptionPriceView(APIView):
             # Validate input data
             serializer = OptionPricingSerializer(data=request.data)
             if not serializer.is_valid():
+                print("Serializer errors:", serializer.errors)
                 return Response(
                     serializer.errors,
                     status=status.HTTP_400_BAD_REQUEST

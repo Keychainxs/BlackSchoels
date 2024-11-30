@@ -25,7 +25,7 @@ class OptionPricingSerializer(serializers.Serializer):
             raise serializers.ValidationError("Maturity date must be in the future")
         
         return value
-    
+   
     
 #create another class called to set the fields for the callprice, greek, put, and calculation date 
 # set the methods for each type: FLOAT field, date field, and Dictfield
